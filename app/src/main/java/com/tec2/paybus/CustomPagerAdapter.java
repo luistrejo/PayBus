@@ -1,47 +1,29 @@
 package com.tec2.paybus;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
-import androidx.viewpager.widget.PagerAdapter;
+class CustomPagerAdapter extends FragmentPagerAdapter {
+    private static final int NUMBER_OF_PAGES = 1;
 
-class CustomPagerAdapter extends PagerAdapter {
-    private Context mContext;
-
-    public CustomPagerAdapter(Context context) {
-        mContext = context;
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup collection, int position) {
-        ModelObject modelObject = ModelObject.values()[position];
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        ViewGroup layout = (ViewGroup) inflater.inflate(modelObject.getLayoutResId(), collection, false);
-        collection.addView(layout);
-        return layout;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup collection, int position, Object view) {
-        collection.removeView((View) view);
+    public CustomPagerAdapter(FragmentManager fm) {
+        super(fm);
     }
 
     @Override
     public int getCount() {
-        return ModelObject.values().length;
+        return NUMBER_OF_PAGES;
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
-    }
+    public Fragment getItem(int position) {
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        ModelObject customPagerEnum = ModelObject.values()[position];
-        return mContext.getString(customPagerEnum.getTitleResId());
+        switch (position) {
+            case 0:
+                return OpcionesPagoFragment.newInstance();
+            default:
+                return null;
+        }
     }
-
 }

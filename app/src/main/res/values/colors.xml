@@ -8,4 +8,6 @@
     <color name="white">#ffffff</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="gris1">#354856</color>
+    <color name="gris2">#242F34</color>
 </resources>

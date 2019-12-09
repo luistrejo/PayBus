@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
                                     new AuthUI.IdpConfig.GoogleBuilder().build(),
                                     new AuthUI.IdpConfig.FacebookBuilder().build()))
                             .setTosAndPrivacyPolicyUrls("https://buscuu.com/", "https://www.iubenda.com/privacy-policy/55306257")
-                            .setIsSmartLockEnabled(true)
+                            .setIsSmartLockEnabled(false)
                             .build(),
                     RC_SIGN_IN);
         }

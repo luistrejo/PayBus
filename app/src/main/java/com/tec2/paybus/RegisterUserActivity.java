@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +33,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     AutoCompleteTextView editTextFilledExposedDropdown;
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase;
+    DatabaseReference refData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
+        refData = firebaseDatabase.getReference("accounts");
     }
 
     public void registerUserData() {
@@ -69,14 +72,22 @@ public class RegisterUserActivity extends AppCompatActivity {
         docData.put("aMaterno", txtApMaterno.getText().toString());
         docData.put("sexo", "Machote");
         docData.put("logged", new Timestamp(new Date()));
-        docData.put("saldo", 0.0);
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         DocumentReference newCityRef = firebaseFirestore.collection("users").document(user.getUid());
 
         newCityRef.set(docData)
                 .addOnSuccessListener(aVoid -> {
-                    Log.d("SAVE DATA", "DocumentSnapshot successfully written!");
+
+                    Map<String, Object> operation = new HashMap<>();
+                    operation.put("tipo", 0);
+                    operation.put("monto", 0.00);
+                    operation.put("origen", "Apertura de cuenta");
+
+                    Map<String, Object> newUser = new HashMap<>();
+                    newUser.put("saldo", 0.00);
+                    refData.child(user.getUid()).setValue(newUser);
+                    refData.child(user.getUid()).child("operations").push().setValue(operation);
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 })
                 .addOnFailureListener(e -> Snackbar.make(txtNombre.getRootView(), "Ocurrio un error con el registro", BaseTransientBottomBar.LENGTH_LONG).show());

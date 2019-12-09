@@ -13,7 +13,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterUserActivity"></activity>
+        <activity android:name=".PaymentActiviyWidget"></activity>
+
+        <receiver android:name=".PaymentWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/payment_widget_info" />
+        </receiver>
+
+        <activity android:name=".RecargaExitosaActivity" />
+        <activity android:name=".Transferir" />
+        <activity
+            android:name=".CaptureActivity"
+            android:screenOrientation="fullSensor"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".RegisterUserActivity" />
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,8 +44,7 @@
         <activity android:name=".PayProcessActivity" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name" />
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
